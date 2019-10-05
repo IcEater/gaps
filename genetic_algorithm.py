@@ -21,7 +21,7 @@ class GeneticAlgorithm(object):
         self._pieces = pieces
 
     def start_evolution(self, verbose):
-        print("=== Pieces:      {}\n".format(len(self._pieces)))
+        # print("=== Pieces:      {}\n".format(len(self._pieces)))
         if verbose:
             plot = Plot(self._image)
 
@@ -32,7 +32,7 @@ class GeneticAlgorithm(object):
         termination_counter = 0
 
         for generation in range(self._generations):
-            print_progress(generation, self._generations - 1, prefix="=== Solving puzzle: ")
+            # print_progress(generation, self._generations - 1, prefix="=== Solving puzzle: ")
 
             new_population = []
 
@@ -55,8 +55,8 @@ class GeneticAlgorithm(object):
                 best_fitness_score = fittest.fitness
 
             if termination_counter == self.TERMINATION_THRESHOLD:
-                print("\n\n=== GA terminated")
-                print("=== There was no improvement for {} generations".format(self.TERMINATION_THRESHOLD))
+                # print("\n\n=== GA terminated")
+                # print("=== There was no improvement for {} generations".format(self.TERMINATION_THRESHOLD))
                 return fittest
 
             self._population = new_population
