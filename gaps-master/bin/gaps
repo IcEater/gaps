@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+"""Solves given jigsaw puzzle
+
+This module loads puzzle and initializes genetic algorithm with
+given number of generations and population. At the end, solution image is displayed.
+
+"""
+
+import argparse
+import matplotlib.pyplot as plt
+import cv2
+from time import time
+from gaps.genetic_algorithm import GeneticAlgorithm
+from gaps.size_detector import SizeDetector
+from gaps.plot import Plot
+
+GENERATIONS = 20
+POPULATION = 64
+CASE=3000;
+
+def show_image(img, title):
+    if not argsVerbose:
+        Plot(img, title)
+    plt.show()
+
+while(CASE<3300):
+    if __name__ == "__main__":
+        argsImage = "../input/puzzle/32/32/"+str(CASE)+".png"
+        argsSize=32
+        argsPopulation=1024
+        argsGenerations=20
+        argsVerbose=0
+        image = cv2.imread(argsImage)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        src_image=image
+
+        if argsSize is not None:
+            piece_size = argsSize
+        else:
+            detector = SizeDetector(image)
+            piece_size = detector.detect_piece_size()
+
+        print ("\n=== Population:  {}".format(argsPopulation))
+        print ("=== Generations: {}".format(argsGenerations))
+        print ("=== Piece size:  {} px".format(piece_size))
+
+        # Let the games begin! And may the odds be in your favor!
+        start = time()
+        algorithm = GeneticAlgorithm(image, piece_size, argsPopulation, argsGenerations)
+        solution = algorithm.start_evolution(argsVerbose)
+        end = time()
+
+        file_name = 'ac.txt'
+        with open(file_name, 'a') as f:
+            f.write(argsImage.split(".")[0] + ".png")
+            for piece in solution.pieces:
+                print(piece.id+" ")
+            print("\n")
+
+        print ("\n=== Done in {0:.3f} s".format(end - start))
+        solution_image = solution.to_image()
+        print ("=== Close figure to exit")
+        CASE=CASE+1
